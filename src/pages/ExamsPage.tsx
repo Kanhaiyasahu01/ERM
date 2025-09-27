@@ -1,6 +1,10 @@
+
 import { exams, results } from '../data/exams';
 import { studentUsers } from '../data/users';
 import { useState } from 'react';
+
+// Simulate logged-in student (first in dummy data)
+const loggedInStudent = studentUsers[0];
 
 export default function ExamsPage() {
   const [search, setSearch] = useState('');
@@ -11,6 +15,11 @@ export default function ExamsPage() {
     e.course?.toLowerCase().includes(search.toLowerCase()) ||
     e.branch.toLowerCase().includes(search.toLowerCase())
   );
+
+  // Student's results only
+  const myResults = results.filter(r => r.studentId === loggedInStudent.id);
+  const latestResult = myResults[myResults.length - 1];
+  const latestExam = latestResult ? exams.find(e => e.id === latestResult.examId) : null;
 
   return (
     <div className="min-h-screen bg-gray-50 px-2 py-2">
@@ -80,9 +89,40 @@ export default function ExamsPage() {
           </table>
         </div>
       </div>
-      {/* Results Table */}
+      {/* My Results Section */}
       <div className="mt-10">
-        <h3 className="text-lg font-semibold mb-2">Results</h3>
+        <h3 className="text-lg font-semibold mb-2">My Results</h3>
+        <div className="overflow-x-auto mb-4">
+          <table className="min-w-[400px] w-full bg-white rounded-xl shadow text-left">
+            <thead className="bg-blue-50">
+              <tr>
+                <th className="py-2 px-4">Exam</th>
+                <th className="py-2 px-4">Marks</th>
+              </tr>
+            </thead>
+            <tbody>
+              {myResults.length === 0 && (
+                <tr><td colSpan={2} className="text-center text-gray-400 text-lg py-6">No results found.</td></tr>
+              )}
+              {myResults.map(r => {
+                const exam = exams.find(e => e.id === r.examId);
+                return (
+                  <tr key={r.examId} className="border-b last:border-b-0">
+                    <td className="py-2 px-4">{exam?.name}</td>
+                    <td className="py-2 px-4">{r.marks}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        {latestResult && latestExam && (
+          <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={()=>alert('Download simulated!')}>Download Marksheet</button>
+        )}
+      </div>
+      {/* All Results Table */}
+      <div className="mt-10">
+        <h3 className="text-lg font-semibold mb-2">All Results</h3>
         <div className="overflow-x-auto">
           <table className="min-w-[500px] w-full bg-white rounded-xl shadow text-left">
             <thead className="bg-blue-50">
