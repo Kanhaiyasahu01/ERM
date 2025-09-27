@@ -3,9 +3,7 @@ import { studentUsers, staffUsers } from '../data/users';
 import { admissions } from '../data/admissions';
 import { exams, results } from '../data/exams';
 
-function getRandomTrend() {
-  return Math.random() > 0.5 ? '+' : '-';
-}
+
 
 export default function DashboardPage() {
   const totalStudents = studentUsers.length;
