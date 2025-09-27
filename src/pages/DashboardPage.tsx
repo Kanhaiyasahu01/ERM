@@ -1,7 +1,4 @@
 
-
-
-
 import { useState } from 'react';
 
 const summary = [
@@ -61,7 +58,7 @@ export default function DashboardPage() {
         </div>
         {/* Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-7">
-          {summary.map((item, idx) => (
+          {summary.map((item) => (
             <div key={item.label} className="bg-white rounded-xl border border-gray-200 p-6 flex flex-col gap-2 shadow-sm">
               <div className="flex items-center justify-between">
                 <span className="text-gray-500 text-sm">{item.label}</span>
